@@ -1,0 +1,9 @@
+services:
+  webapp:
+    image: bitnami/postgresql
+    ports:
+      - "5432:5432"
+    environment:
+      -  POSTGRES_USER=bagcoin123      # Nome do usuário do banco de dados
+      -  POSTGRES_PASSWORD=bagcoin123  # Senha do banco de dados
+      -  POSTGRES_DB=bagcoinDataBase

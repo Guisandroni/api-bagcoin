@@ -1,0 +1,166 @@
+### Variáveis de ambiente
+@baseUrl = http://localhost:3333
+@userId = seu-user-id
+@carteiraId = sua-carteira-id
+@receitaId = seu-receita-id
+@despesaId = seu-despesa-id
+@metaId = sua-meta-id
+
+### Usuários
+
+# Criar usuário
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+    "name": "Usuário Teste",
+    "email": "teste@email.com",
+    "password": "123456"
+}
+
+###
+# Buscar usuário por ID
+GET {{baseUrl}}/users/{{userId}}
+
+# Buscar usuário por carteira
+GET {{baseUrl}}/users/carteira/{{carteiraId}}
+
+### Carteiras
+
+# Criar carteira
+POST {{baseUrl}}/carteiras
+Content-Type: application/json
+
+{
+    "name": "Carteira Principal",
+    "balance": 1000,
+    "userId": "{{userId}}"
+}
+
+# Listar todas as carteiras
+GET {{baseUrl}}/carteiras
+
+# Listar carteiras por usuário
+GET {{baseUrl}}/carteiras?userId={{userId}}
+
+# Buscar carteira por ID
+GET {{baseUrl}}/carteiras/{{carteiraId}}
+
+# Atualizar carteira
+PUT {{baseUrl}}/carteiras/{{carteiraId}}
+Content-Type: application/json
+
+{
+    "name": "Nova Carteira",
+    "balance": 2000
+}
+
+# Excluir carteira
+DELETE {{baseUrl}}/carteiras/{{carteiraId}}
+
+### Receitas
+
+# Criar receita
+POST {{baseUrl}}/receitas
+Content-Type: application/json
+
+{
+    "name": "Salário",
+    "description": "Salário mensal",
+    "valor": 3000,
+    "data": "2024-03-20T00:00:00Z",
+    "categoria": "Trabalho",
+    "carteiraId": "{{carteiraId}}"
+}
+
+# Listar todas as receitas
+GET {{baseUrl}}/receitas
+
+# Listar receitas por carteira
+GET {{baseUrl}}/receitas?carteiraId={{carteiraId}}
+
+# Buscar receita por ID
+GET {{baseUrl}}/receitas/{{receitaId}}
+
+# Atualizar receita
+PUT {{baseUrl}}/receitas/{{receitaId}}
+Content-Type: application/json
+
+{
+    "name": "Salário Atualizado",
+    "valor": 3500
+}
+
+# Excluir receita
+DELETE {{baseUrl}}/receitas/{{receitaId}}
+
+### Despesas
+
+# Criar despesa
+POST {{baseUrl}}/despesas
+Content-Type: application/json
+
+{
+    "name": "Aluguel",
+    "description": "Aluguel do apartamento",
+    "valor": 1500,
+    "data": "2024-03-20T00:00:00Z",
+    "categoria": "Moradia",
+    "carteiraId": "{{carteiraId}}"
+}
+
+# Listar todas as despesas
+GET {{baseUrl}}/despesas
+
+# Listar despesas por carteira
+GET {{baseUrl}}/despesas?carteiraId={{carteiraId}}
+
+# Buscar despesa por ID
+GET {{baseUrl}}/despesas/{{despesaId}}
+
+# Atualizar despesa
+PUT {{baseUrl}}/despesas/{{despesaId}}
+Content-Type: application/json
+
+{
+    "name": "Aluguel Atualizado",
+    "valor": 1600
+}
+
+# Excluir despesa
+DELETE {{baseUrl}}/despesas/{{despesaId}}
+
+### Metas
+
+# Criar meta
+POST {{baseUrl}}/metas
+Content-Type: application/json
+
+{
+    "name": "Férias",
+    "description": "Férias na praia",
+    "valor": 5000,
+    "dataFinal": "2024-12-31T00:00:00Z",
+    "carteiraId": "{{carteiraId}}"
+}
+
+# Listar todas as metas
+GET {{baseUrl}}/metas
+
+# Listar metas por carteira
+GET {{baseUrl}}/metas?carteiraId={{carteiraId}}
+
+# Buscar meta por ID
+GET {{baseUrl}}/metas/{{metaId}}
+
+# Atualizar meta
+PUT {{baseUrl}}/metas/{{metaId}}
+Content-Type: application/json
+
+{
+    "name": "Férias Atualizadas",
+    "valor": 6000
+}
+
+# Excluir meta
+DELETE {{baseUrl}}/metas/{{metaId}}

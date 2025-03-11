@@ -20,11 +20,12 @@ enum FrequenciaRecorrencia {
 }
 
 model User {
-  id         String   @id @default(uuid())
+  id         String     @id @default(uuid())
   name       String
-  email      String   @unique
+  email      String     @unique
   password   String
-  created_at DateTime @default(now())
+  created_at DateTime   @default(now())
+  carteiras  Carteira[]
 }
 
 model Carteira {
@@ -33,29 +34,31 @@ model Carteira {
   balance    Decimal  @default(0.00)
   created_at DateTime @default(now())
 
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
   despesas Despesa[]
   receitas Receita[]
   metas    Meta[]
+  
+  @@index([userId])
 }
 
 model Despesa {
   id          String                 @id @default(uuid())
   name        String
-  balance     Decimal
+  valor       Decimal
   description String?
   recorrente  Boolean                @default(false)
-  frequencia  FrequenciaRecorrencia?
+  frequencia  FrequenciaRecorrencia? @default(MENSAL)
   proximaData DateTime?
 
-  carteira   Carteira @relation(fields: [carteiraId], references: [id])
+  carteira   Carteira @relation(fields: [carteiraId], references: [id], onDelete: Cascade)
   carteiraId String
 
-  category    Category @relation(fields: [categoryId], references: [id])
-  categoriaId String
-
   created_at DateTime @default(now())
-
-  categoryId String
+  
+  @@index([carteiraId])
 }
 
 model Receita {
@@ -64,18 +67,15 @@ model Receita {
   value       Decimal
   description String?
   recorrente  Boolean                @default(false)
-  frequencia  FrequenciaRecorrencia?
+  frequencia  FrequenciaRecorrencia? @default(MENSAL)
   proximaData DateTime?
 
-  carteira   Carteira @relation(fields: [carteiraId], references: [id])
+  carteira   Carteira @relation(fields: [carteiraId], references: [id], onDelete: Cascade)
   carteiraId String
 
-  category    Category @relation(fields: [categoryId], references: [id])
-  categoriaId String
-
   created_at DateTime @default(now())
-
-  categoryId String
+  
+  @@index([carteiraId])
 }
 
 model Meta {
@@ -84,28 +84,15 @@ model Meta {
   value       Decimal
   description String?
   recorrente  Boolean                @default(false)
-  frequencia  FrequenciaRecorrencia?
+  frequencia  FrequenciaRecorrencia? @default(MENSAL)
   proximaData DateTime?
   progresso   Decimal                @default(0.00)
+  dataFinal   DateTime
 
-  carteira   Carteira @relation(fields: [carteiraId], references: [id])
+  carteira   Carteira @relation(fields: [carteiraId], references: [id], onDelete: Cascade)
   carteiraId String
 
-  category    Category @relation(fields: [categoryId], references: [id])
-  categoriaId String
-
   created_at DateTime @default(now())
-  dataFinal  DateTime
-
-  categoryId String
-}
-
-model Category {
-  id     String  @id @default(uuid())
-  name   String
-  avatar String?
-
-  Despesa Despesa[]
-  Receita Receita[]
-  Meta    Meta[]
+  
+  @@index([carteiraId])
 }
